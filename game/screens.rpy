@@ -520,7 +520,7 @@ style game_menu_content_frame:
     yfill True
 
 style game_menu_viewport:
-    xsize 1840
+    xsize gui.game_menu_content_width
     yfill True
 
 style game_menu_vscrollbar:
@@ -774,6 +774,12 @@ screen preferences():
                     textbutton _("После выборов") action Preference("after choices", "toggle")
                     textbutton _("Переходов") action InvertSelected(Preference("transitions", "toggle"))
 
+                vbox:
+                    style_prefix "radio"
+                    label _("Язык")
+                    textbutton _("Русский") action Language(None)
+                    textbutton _("English") action Language("english")
+
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
 
@@ -927,21 +933,29 @@ screen history():
                 ## установлен на None.
                 has fixed:
                     yfit True
+                    xfill True
 
-                if h.who:
+                hbox:
+                    spacing 30
+                    xfill True
 
-                    label h.who:
-                        style "history_name"
+                    if h.who:
+
+                        label h.who:
+                            style "history_name"
+                            substitute False
+                            xsize gui.history_name_width
+
+                            ## Берёт цвет из who параметра персонажа, если он
+                            ## установлен.
+                            if "color" in h.who_args:
+                                text_color h.who_args["color"]
+
+                    $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+                    text what:
+                        style "history_text"
                         substitute False
-
-                        ## Берёт цвет из who параметра персонажа, если он
-                        ## установлен.
-                        if "color" in h.who_args:
-                            text_color h.who_args["color"]
-
-                $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
-                text what:
-                    substitute False
+                        xfill True
 
         if not _history_list:
             label _("История диалогов пуста.")
@@ -966,21 +980,15 @@ style history_window:
     ysize gui.history_height
 
 style history_name:
-    xpos gui.history_name_xpos
-    xanchor gui.history_name_xalign
-    ypos gui.history_name_ypos
     xsize gui.history_name_width
+    xalign gui.history_name_xalign
 
 style history_name_text:
     min_width gui.history_name_width
     textalign gui.history_name_xalign
 
 style history_text:
-    xpos gui.history_text_xpos
-    ypos gui.history_text_ypos
-    xanchor gui.history_text_xalign
-    xsize gui.history_text_width
-    min_width gui.history_text_width
+    xfill True
     textalign gui.history_text_xalign
     layout ("subtitle" if gui.history_text_xalign else "tex")
 
@@ -1603,7 +1611,7 @@ style game_menu_content_frame:
 
 style game_menu_viewport:
     variant "small"
-    xsize 1740
+    xsize gui.game_menu_content_width
     yfill True
 
 style pref_vbox:

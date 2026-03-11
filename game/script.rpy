@@ -21,7 +21,7 @@ label splashscreen:
 screen start_game_icon():
     default bag_hover = False
     
-    text "что мне делать сейчас?":
+    text _("что мне делать сейчас?"):
         xalign 0.5
         yalign 0.12
         size 52
@@ -39,7 +39,7 @@ screen start_game_icon():
         action Return()
 
     if bag_hover:
-        text "поиграть? а потом и собрать сумку":
+        text _("поиграть? а потом и собрать сумку"):
             xalign 0.5
             ypos 430
             size 44
@@ -91,8 +91,10 @@ label start:
     gg "Ладно уж. Пора вставать"
     
     scene bg room table
-    call screen start_game_icon
 
+    call screen start_game_icon
+    $ persistent.cg_4 = True
+    $ persistent.cg_5 = True
     # call the minigame menu; when it returns the story continues below
     call nes_start from _call_nes_start
 
@@ -188,18 +190,22 @@ label street:
     gg opening baga "Ну-ка"
 
     scene bg fe
+    play sound wings
     gg shocked baga"....чего? перья?"
     scene bg black with eyes_blink
     scene bg first meet
+    $ persistent.cg_meet = True
     with eyes_blink
     pause 1.0
     scene bg black with eyes_blink
     scene bg roof
+    $ persistent.cg_6 = True
     pause 1.0
     show an roofa:
         xpos 0.65
         ypos 0.3
     with fade
+    stop sound fadeout 1.0
     pause 0.5
     gg scared baga"Что за чёрт..."
     an "Не чёрт, а Ангел"
@@ -226,6 +232,7 @@ label street:
     gg """Ага, конечно. Слушай, чувак, я так понимаю это какой-то пранк и т.п.?"""
     n "Вздыхает. Раскрывает одежду. Появляются крылья."
     scene bg angel with dissolve
+    $ persistent.cg_angel = True
     pause 1.0
     gg shocked baga "..."
     pause 1.0
@@ -250,11 +257,12 @@ label street:
     an "Ты единственный кто может меня видеть."
     an smilea "Это не случайно. Ты избран, поздравляю."
     gg "Ого. Ну, круто. А приз — хотя бы бесплатный обед в столовой?"
-    an angrya """…
-    
-    Ты будешь решать судьбы людей."""
+    an angrya "…"
+    play sound meme_spiderman volume 0.5
+    an angrya "Ты будешь решать судьбы людей"
     gg argue baga """Ч-чего?!
     А нельзя сразу отказаться?"""
+    stop sound fadeout 1.0
     an "Нет."
     jump school
 
@@ -266,15 +274,18 @@ label school:
     pause 0.5
     with dissolve
     sc "Он ходит с ним на уроки."
-    scene bg classroom
+    scene bg classroom with dissolve
+    pause 1.0
+    $ persistent.cg_7 = True
     sc "Во время занятий Рафаэль сидит у окна, на полу — да вообще на любой плоской поверхности — и наблюдает."
     scene school pink with Pause(0.5)
     
     sc "В раздевалке он без стеснения разглядывает парней."
     scene bg f fire with dissolve
+    $ persistent.cg_8 = True
     pause 1.0
     nvl clear
-    sc "На улице Лиаму пришлось быстро объяснить ему концепцию личного пространства."
+    sc "На улице Лиаму пришлось 'мягко' объяснить ему концепцию личного пространства."
     nvl hide
     pause 1.0
 
@@ -282,6 +293,7 @@ label school:
     show an hilla:
         xpos 1470
         ypos 350
+    $ persistent.cg_hill = True
 
     show gg hilla:
         xpos 1595
@@ -346,13 +358,16 @@ label zephir:
     n "Темнота. Душно."
     pause 0.5
     scene bg zephir cry 1 with eyes_blink
+    $ persistent.cg_9 = True
     gg shocked baga "Зефир?"
     scene bg zephir cry 2 with dissolve
     pause 
     ld scareda "Помоги. Я… я боюсь.."
     scene bg zephir cry 3 with dissolve
+    $ persistent.cg_10 = True
     pause 1.0
     scene bg room night with fade
+    $ persistent.cg_roomnight = True
     n "Лиам резко просыпается, тяжело дыша."
     show gg static baga:
         xpos 100
@@ -481,4 +496,3 @@ label home_1:
     Но на этот раз в темноте постепенно появляется свет…
     """
     
-

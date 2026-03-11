@@ -1,4 +1,4 @@
-
+﻿
 
 # Определение персонажей игры.
 define gg = Character('Лиам', color="#9836e7",image="gg", callback=combined_callback, cb_name="gg", what_color="#c1b5e4", what_callback=typewriter_count_callback)

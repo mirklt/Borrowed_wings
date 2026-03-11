@@ -353,6 +353,12 @@ define gui.history_height = 280
 ## Дополнительное пространство добавляемое между записями экрана истории.
 define gui.history_spacing = 0
 
+## Ширина панели навигации игрового меню и суммарные внешние отступы контента.
+## Нужно для корректной ширины текста истории и контента внутри game_menu.
+define gui.game_menu_nav_width = 560
+define gui.game_menu_content_margin = 120  # left_margin 80 + right_margin 40
+define gui.game_menu_content_width = config.screen_width - gui.game_menu_nav_width - gui.game_menu_content_margin
+
 ## Местоположение, ширина и выравнивание заголовка, показывающего имя говорящего
 ## персонажа.
 define gui.history_name_xpos = 310
@@ -363,7 +369,7 @@ define gui.history_name_xalign = 1.0
 ## Местоположение, ширина и выравнивание диалогового текста.
 define gui.history_text_xpos = 340
 define gui.history_text_ypos = 4
-define gui.history_text_width = 1480
+define gui.history_text_width = gui.game_menu_content_width - gui.history_text_xpos
 define gui.history_text_xalign = 0.0
 
 
@@ -463,7 +469,9 @@ init python:
         gui.pref_button_spacing = 20
 
         gui.history_height = 100
-        gui.history_text_width = 800
+        gui.game_menu_nav_width = 680
+        gui.game_menu_content_width = config.screen_width - gui.game_menu_nav_width - gui.game_menu_content_margin
+        gui.history_text_width = gui.game_menu_content_width - gui.history_text_xpos
 
         gui.quick_button_text_size = 40
 
