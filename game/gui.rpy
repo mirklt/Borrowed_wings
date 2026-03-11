@@ -463,7 +463,7 @@ init python:
         gui.pref_button_spacing = 20
 
         gui.history_height = 100
-        gui.history_text_width = 1080
+        gui.history_text_width = 800
 
         gui.quick_button_text_size = 40
 
